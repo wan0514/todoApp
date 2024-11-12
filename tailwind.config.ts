@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss'
 
 export default {
   content: [
@@ -28,7 +28,15 @@ export default {
         NanumSquareB: 'var(--font-NanumSquareB)',
         NanumSquareR: 'var(--font-NanumSquareR)',
       },
+
+      boxShadow: {
+        'custom-3px': '3px 3px 0 0 #0F172A',
+      },
+
+      backgroundImage: {
+        'meomo-pad': "url('/img/memo.svg')",
+      },
     },
   },
   plugins: [],
-} satisfies Config;
+} satisfies Config
