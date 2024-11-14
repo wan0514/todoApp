@@ -13,9 +13,14 @@ interface Todo {
 interface TodoListProps {
   todos: Todo[]
   isCompleted: boolean
+  onToggle: (id: number, isCompleted: boolean) => void
 }
 
-export default function TodoList({ todos, isCompleted }: TodoListProps) {
+export default function TodoList({
+  todos,
+  isCompleted,
+  onToggle,
+}: TodoListProps) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <Image src={isCompleted ? done : todo} alt={'이미지'} />
@@ -26,6 +31,7 @@ export default function TodoList({ todos, isCompleted }: TodoListProps) {
             id={todo.id}
             isCompleted={todo.isCompleted}
             name={todo.name}
+            onToggle={onToggle}
           />
         ))}
       </div>
