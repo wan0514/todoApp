@@ -1,8 +1,6 @@
-import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 import localFont from 'next/font/local'
-import headerLogo from '../../public/logo/logoLarge.svg'
+import Header from './_components/Header'
+
 import './globals.css'
 import './reset.css'
 
@@ -28,15 +26,7 @@ export default function RootLayout({
       <body
         className={`flex justify-center flex-col items-center w-full overflow-hidden ${NanumSquareB.variable} ${NanumSquareR.variable}`}
       >
-        <header className="flex items-center w-full h-[60px] bg-white stroke-slate-200">
-          <Link href="/">
-            <Image
-              src={headerLogo}
-              alt="header logo"
-              className="ml-[12px] sm:ml-[24px] lg:ml-[300px]"
-            />
-          </Link>
-        </header>
+        <Header />
         <main className="w-[343px] sm:w-[696px] lg:w-[1200px] t-5">
           {children}
         </main>
