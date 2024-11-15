@@ -19,6 +19,7 @@ export default {
         slate100: '#F1F5F9',
 
         violet600: '#7C3AED',
+        violet200: '#DDD6FE',
         violet100: '#EDE9FE',
         rose500: '#F43F5E',
         rose300: '#BEF264',

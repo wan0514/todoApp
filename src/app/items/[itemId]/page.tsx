@@ -1,30 +1,70 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { use } from 'react'
 import defaultImage from '../../../../public/ic/defaultImg.svg'
 import checkBox from '../../../../public/ic/checkbox.svg'
+import checkedbox from '../../../../public/ic/checkedbox.svg'
 import grayPlus from '../../../../public/ic/plusGray.svg'
 import check from '../../../../public/ic/check.svg'
 import xIcon from '../../../../public/ic/X.svg'
-// type Props = {
-//   params: {
-//     itemId: string
-//   }
-// }
+import { patchItem, getItem } from '@/app/api/todo'
 
-export default async function Detail() {
-  // { params }: Props
-  // const { itemId } = params
+interface Todo {
+  id: number
+  tenantId: string
+  name: string
+  memo?: string
+  imageUrl?: string
+  isCompleted: boolean
+}
 
-  // const inputValue = itemId
+type Params = Promise<{ itemId: string }>
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export default function Detail(props: {
+  params: Params
+  searchParams: SearchParams
+}) {
+  const params = use(props.params)
+  const itemId = params.itemId
+
+  const [todo, setTodo] = useState<Todo | null>(null)
+
+  useEffect(() => {
+    const fetchTodo = async () => {
+      try {
+        const fetchedTodos = await getItem(Number(itemId))
+        setTodo(fetchedTodos)
+      } catch (error) {
+        console.error('Error fetching todos:', error)
+      }
+    }
+    fetchTodo()
+  }, [])
+
+  const consolelogging = (value: string) => {
+    console.log(value)
+    //수정 로직
+  }
+
+  if (!todo) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div className="flex flex-col px-[102px] items-center gap-6 w-full h-screen font-NanumSquareB bg-white pt-6">
-      <div className="flex items-center justify-center rounded-3xl border-2 border-solid stroke-slate-900 w-full px-6">
-        <Image src={checkBox} alt="체크여부" />
+      <div
+        className={`${
+          todo.isCompleted ? `bg-violet200` : 'bg-white'
+        } flex items-center justify-center rounded-3xl border-2 border-solid stroke-slate-900 w-full px-6`}
+      >
+        <Image src={todo.isCompleted ? checkedbox : checkBox} alt="체크여부" />
         <input
-          className="w-auto max-w-full min-w-0 underline rounded-3xl outline-none bg-white text-slate-900 placeholder-slate-500 pl-4 py-4 "
+          className="w-auto max-w-full min-w-0 underline rounded-3xl outline-none bg-transparent text-slate-900 placeholder-slate-500 pl-4 py-4 "
           type="text"
-          // value={inputValue}
-          // onChange={(e) => setInpuValue(e.target.value)}
+          value={todo.name || ''}
+          onChange={(e) => consolelogging(e.target.value)}
         ></input>
       </div>
       <div className="flex justify-center w-full gap-6 h-[311px]">
@@ -36,7 +76,10 @@ export default async function Detail() {
         </div>
         <div className="flex basis-3/5 flex-col items-center gap-4 w-full bg-meomo-pad rounded-3xl">
           <p className="mt-5 text-amber800">Memo</p>
-          <textarea className="appearance-none border-0 outline-none bg-transparent p-0 m-0 w-full px-4 pb-6 h-full text-center resize-none overflow-auto font-NanumSquareR"></textarea>
+          <textarea
+            className="appearance-none border-0 outline-none bg-transparent p-0 m-0 w-full px-4 pb-6 h-full text-center resize-none overflow-auto font-NanumSquareR"
+            value={todo.memo || ''}
+          ></textarea>
         </div>
       </div>
       <div className="flex justify-end gap-4 w-full text-base h-14">
