@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import TodoList from './_components/TodoList'
 import AddTodoBar from './_components/AddTodoBar'
 import { getItems, patchItem } from './api/todo'
