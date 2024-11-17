@@ -20,6 +20,15 @@ export async function getItems(): Promise<Todos> {
   return json
 }
 
+export async function getItem(itemId: number) {
+  const response = await fetch(`${BASE_URL}/wan/items/${itemId}`)
+  if (!response.ok) {
+    throw new Error('Failed to fetch item')
+  }
+  const json = await response.json()
+  return json
+}
+
 export async function postItems(todo: string) {
   const response = await fetch(`${BASE_URL}/wan/items`, {
     method: 'POST',
